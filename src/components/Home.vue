@@ -1,12 +1,12 @@
 <template>
   <div class="home" style="height: 100%">
     <el-container style="height: 100%">
-      <el-header style="text-align: right; background-color: #545c64; font-size: 12px">
-        <el-row :span="24">
+      <el-header style="text-align: right; background-color: #545c64; font-size: 12px; height: 60px;">
+        <el-row :span="24" style="height: 60px;">
           <el-col :span="6">
             <img style="height: 30px;margin-top: 15px;margin-right: 100%;" src="./../assets/logo.jpg">
           </el-col>
-          <el-col :span="12">
+          <el-col :span="12" style="height: 50px;">
             <el-menu
               :default-active="activeIndex"
               mode="horizontal"
@@ -17,12 +17,12 @@
               active-text-color="#ffd04b">
               <el-menu-item index="/personMsg" style="margin-left: 15%;">个人信息</el-menu-item>
               <el-menu-item index="/dayRecord">消费记录</el-menu-item>
-              <el-menu-item index="">我的进度</el-menu-item>
-              <el-menu-item index="">攀岩足迹</el-menu-item>
+              <el-menu-item index="/myProcess">我的进度</el-menu-item>
+              <el-menu-item index="/climbingTrail">攀岩足迹</el-menu-item>
               <el-menu-item index="">统计</el-menu-item>
             </el-menu>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" style="margin-top: 20px;">
             <span>{{userInfo.code}}</span>
           </el-col>
         </el-row>

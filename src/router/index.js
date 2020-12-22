@@ -46,6 +46,26 @@ export default new Router({
           component: () => import('@/components/AddDayRecord')
         }
       ]
+    },
+    {
+      path: '/myProcess',
+      component: Home,
+      children: [
+        {
+          path: '',
+          component: () => import('@/components/MyProcess')
+        }
+      ]
+    },
+    {
+      path: '/climbingTrail',
+      component: Home,
+      children: [
+        {
+          path: '',
+          component: () => import('@/components/ClimbingTrail')
+        }
+      ]
     }
   ]
 })

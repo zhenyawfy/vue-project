@@ -6,7 +6,7 @@
           <el-col :span="6">
             <img style="height: 30px;margin-top: 15px;margin-right: 100%;" src="./../assets/logo.jpg">
           </el-col>
-          <el-col :span="12" style="height: 50px;">
+          <el-col :span="12">
             <el-menu
               :default-active="activeIndex"
               mode="horizontal"
@@ -14,7 +14,8 @@
               class="home-menu"
               background-color="#545c64"
               text-color="#fff"
-              active-text-color="#ffd04b">
+              active-text-color="#ffd04b"
+              style="height: 60px;border: none;">
               <el-menu-item index="/personMsg" style="margin-left: 15%;">个人信息</el-menu-item>
               <el-menu-item index="/dayRecord">消费记录</el-menu-item>
               <el-menu-item index="/myProcess">我的进度</el-menu-item>

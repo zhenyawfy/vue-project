@@ -3,8 +3,8 @@
     <img src="./../assets/logo.jpg">
     <h1>{{ msg }}</h1>
     <div class="login_form">
-      <input type="text"  class="qxs-ic_user qxs-icon"  placeholder="用户名" v-model="userName">
-      <input type="text"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="password">
+      <input type="text"  class="qxs-ic_user qxs-icon"  placeholder="用户名" v-model="loginName">
+      <input type="text"  class="qxs-ic_password qxs-icon"  placeholder="密码" v-model="pwd">
       <el-button class="login_btn" @click.native="login" type="primary" round :loading="logining">登录</el-button>
       <div style="margin-top: 10px">
         <span style="float: right;color: #A9A9AB">忘记密码？</span>
@@ -20,16 +20,16 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your App',
-      userName: '',
-      password: ''
+      loginName: '',
+      pwd: ''
     }
   },
   created () {
       // 刷新后loading应消失
       this.$store.dispatch("setLoginLoading", false);
-      if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).userName){
-        this.userName = JSON.parse( localStorage.getItem('user')).userName;
-        this.password = JSON.parse( localStorage.getItem('user')).password;
+      if(JSON.parse( localStorage.getItem('user')) && JSON.parse( localStorage.getItem('user')).loginName){
+        this.loginName = JSON.parse( localStorage.getItem('user')).loginName;
+        this.pwd = JSON.parse( localStorage.getItem('user')).pwd;
       }
     },
     computed: {
@@ -39,26 +39,37 @@ export default {
     },
     methods: {
       login() {
-        if (!this.userName) {
+        if (!this.loginName) {
           this.$message.error('请输入用户名');
           return;
         }
-        if (!this.password) {
+        if (!this.pwd) {
           this.$message.error('请输入密码');
           return;
         }
         let that = this;
         this.$axios.post('/financeManage/userLogin', {
-          userName: this.userName,
-          pwd: this.password
+          loginName: this.loginName,
+          pwd: this.pwd
         })
         .then(function (response) {
-          sessionStorage.setItem("userInfo", JSON.stringify(response.data));
-          console.log(response);
-          that.$router.push({path:'/home'});
+          if (response.data.code === '200') {
+              console.log(response.data.data.user);
+              sessionStorage.setItem("userInfo", JSON.stringify(response.data.data.user));
+              sessionStorage.setItem("token", JSON.stringify(response.data.data.token));
+              console.log(response);
+              that.$router.push({path:'/home'});
+          } else {
+              that.$alert(response.data.msg, '提示', {
+                confirmButtonText: '确定'
+              });
+          }
+          
         })
         .catch(function (error) {
-          console.log(error);
+         that.$alert("服务器内部错误！请联系开发人员。", '提示', {
+            confirmButtonText: '确定'
+          });
         });
       }
   }

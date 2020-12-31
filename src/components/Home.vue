@@ -24,7 +24,7 @@
             </el-menu>
           </el-col>
           <el-col :span="6" style="margin-top: 20px;">
-            <span>{{userInfo.code}}</span>
+            <span>{{userInfo.name}}</span>
           </el-col>
         </el-row>
       </el-header>
@@ -42,7 +42,8 @@
     data() {
       return {
         activeIndex: "/personMsg",
-        userInfo: {}
+        userInfo: {},
+        token: {}
       };
     },
     created() {
@@ -71,9 +72,10 @@
       },
       // 通过token获取用户信息
       pageInitial() {
-        var token = sessionStorage.getItem("userInfo");
-        if (token) {
-          this.userInfo = JSON.parse(token);
+        var tokenFlag = sessionStorage.getItem("token");
+        if (tokenFlag) {
+          this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+          this.token = JSON.parse(tokenFlag);
         } else {
           const obj = {
             path: this.$route.path,

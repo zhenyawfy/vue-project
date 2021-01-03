@@ -23,8 +23,19 @@
               <el-menu-item index="">统计</el-menu-item>
             </el-menu>
           </el-col>
-          <el-col :span="6" style="margin-top: 20px;">
-            <span>{{userInfo.name}}</span>
+          <el-col :span="6">
+            <div style="height: 60px;">
+              <span style="color: #fff;font-size: 20px;">{{userInfo.name}}</span>
+              <el-dropdown style="margin-left: 20px;margin-top: 20px;font-size: 20px;">
+                <span class="el-dropdown-link">
+                  <i class="el-icon-setting"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>修改基本信息</el-dropdown-item>
+                  <el-dropdown-item>重置密码</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
           </el-col>
         </el-row>
       </el-header>
@@ -99,5 +110,12 @@
   }
   .home-menu-item {
     margin-left: 10%;
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
   }
 </style>

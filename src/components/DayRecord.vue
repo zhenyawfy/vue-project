@@ -180,3 +180,9 @@
   }
 }
 </script>
+<style>
+  .el-header {
+    color: #333;
+    line-height: 20px;
+  }
+</style>

@@ -66,6 +66,16 @@ export default new Router({
           component: () => import('@/components/ClimbingTrail')
         }
       ]
+    },
+    {
+      path: '/editAssets',
+      component: Home,
+      children: [
+        {
+          path: '',
+          component: () => import('@/components/EditAssets')
+        }
+      ]
     }
   ]
 })

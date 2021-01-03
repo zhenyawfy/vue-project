@@ -7,7 +7,7 @@
 					<span>您好，{{userInfo.name}}！</span>
 				</el-col>
 				<el-col :span="13" style="text-align: right;">
-					<el-button round>修改信息</el-button>
+					<el-button round @click="editAssets">修改金额</el-button>
 				</el-col>
 			</el-row>
 			<div style="width: 50%;margin-left: 25%;">
@@ -22,28 +22,34 @@
 				<el-divider></el-divider>
 				<el-row :span="24">
 					<el-col :span="11" style="text-align: right;margin-right: 40px;">
-						<span :class="sexInfoMsg">性别:</span>
+						<el-tooltip class="item" effect="dark" content="当前/目标金额" placement="left">
+					      <span class="el-icon-info">保障金额:</span>
+					    </el-tooltip>
 					</el-col>
 					<el-col :span="10" style="text-align: left;">
-						<span>{{userInfo.sex}}</span>
+						<span>{{userassets.securityAmt}}/{{userassets.goalSecurityAmt}}</span>
 					</el-col>
 				</el-row>
 				<el-divider></el-divider>
 				<el-row :span="24">
 					<el-col :span="11" style="text-align: right;margin-right: 40px;">
-						<span class="el-icon-message">电子邮件:</span>
+						<el-tooltip class="item" effect="dark" content="当前/目标金额" placement="left">
+					      <span class="el-icon-info">安全金额:</span>
+					    </el-tooltip>
 					</el-col>
 					<el-col :span="10" style="text-align: left;">
-						<span>{{userInfo.email}}</span>
+						<span>{{userassets.conservativeAmt}}/{{userassets.goalConservativeAmt}}</span>
 					</el-col>
 				</el-row>
 				<el-divider></el-divider>
 				<el-row :span="24">
 					<el-col :span="11" style="text-align: right;margin-right: 40px;">
-						<span class="el-icon-map-location">地址:</span>
+						<el-tooltip class="item" effect="dark" content="系统自动计算" placement="left">
+					      <span class="el-icon-info">自由金额:</span>
+					    </el-tooltip>
 					</el-col>
 					<el-col :span="10" style="text-align: left;">
-						<span>{{userInfo.address}}</span>
+						<span>{{userassets.investmentAmt}}</span>
 					</el-col>
 				</el-row>
 				<el-divider></el-divider>
@@ -59,7 +65,8 @@
     return {
     	sexIcon : 'el-icon-female',
     	userInfo: {},
-    	token: {}
+    	token: {},
+    	userassets:{}
     }
   },
   created () {
@@ -81,16 +88,34 @@
       pageInitial() {
         var tokenFlag = sessionStorage.getItem("token");
         if (tokenFlag) {
-          this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-          this.token = JSON.parse(tokenFlag);
+            this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            this.token = JSON.parse(tokenFlag);
+            let that = this;
+	        this.$axios.post('/financeManage/queryAssets', {
+	          userId: this.userInfo.id
+	        })
+	        .then(function (response) {
+	          if (response.data.code === '200') {
+	              that.userassets = response.data.data;
+	          } else {
+	              that.$alert(response.data.msg, '提示', {
+	                confirmButtonText: '确定'
+	              });
+	          }
+	          
+	        })
+	        .catch(function (error) {
+	         that.$alert("服务器内部错误！请联系开发人员。", '提示', {
+	            confirmButtonText: '确定'
+	          });
+	        });
         } else {
-          const obj = {
-            path: this.$route.path,
-            query: this.$route.query,
-          };
-          // token不存在跳回登录页
-          this.$router.push("/");
+        	// token不存在跳回登录页
+        	this.$router.push("/");
         }
+     },
+     editAssets() {
+      	 this.$router.push("/editAssets");
       }
   }
 }
